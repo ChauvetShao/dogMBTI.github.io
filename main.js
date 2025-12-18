@@ -143,7 +143,7 @@ const personalityTypes = {
         bestFriends: ['同款稳稳党 (ISTJ/ISFJ/INFP)', '一起慢慢熟'],
         bestScenes: ['人少的公园边边', '固定时段固定点位'],
         tips: '遇到突然冲刺的放电王，你会礼貌微笑然后想回家',
-        image: 'resources/estj.png'
+        image: 'resources/istj.png'
     },
     'ISFJ': {
         name: '贴心小棉袄犬',
@@ -152,7 +152,7 @@ const personalityTypes = {
         bestFriends: ['温柔带玩犬 (ENFJ/ESFJ)', '安全感担当 (ISTJ)'],
         bestScenes: ['小型遛狗局', '晒太阳慢走', '安静嗅嗅'],
         tips: '太热闹的追逐局容易"吓到电量清零"，咱们慢慢来',
-        image: 'resources/esfj.png'
+        image: 'resources/isfj.png'
     },
     'ESTP': {
         name: '运动玩家犬',
@@ -161,7 +161,7 @@ const personalityTypes = {
         bestFriends: ['放电搭子 (ESTP/ESFP/ENTP)', '越玩越嗨'],
         bestScenes: ['大草坪', '追逐跑酷', '飞盘球球时间'],
         tips: '遇到社恐小宝贝记得"刹车"，别用热情把人家吓跑啦',
-        image: 'resources/enfp.png'
+        image: 'resources/estp.png'
     },
     'ESFP': {
         name: '派对甜心犬',
@@ -170,7 +170,7 @@ const personalityTypes = {
         bestFriends: ['快乐同频 (ENFP/ESFJ/ESTP)', '温柔玩伴 (ISFP)'],
         bestScenes: ['活动局', '拍照打卡', '边玩边社交'],
         tips: '如果有人要你"站好别动"，你可能会：好的！（下一秒转圈）',
-        image: 'resources/enfp.png'
+        image: 'resources/esfp.png'
     },
     'ISTP': {
         name: '冷静机动犬',
@@ -179,7 +179,7 @@ const personalityTypes = {
         bestFriends: ['互不打扰也舒服 (ISTP/INTP/ISTJ/ISFP)'],
         bestScenes: ['平行走', '分散探索', '低密度社交'],
         tips: '太黏人的热情抱抱可能会让你想：我们保持一点点优雅距离',
-        image: 'resources/intj.png'
+        image: 'resources/istp.png'
     },
     'ISFP': {
         name: '文艺敏感犬',
@@ -188,7 +188,7 @@ const personalityTypes = {
         bestFriends: ['温柔同类 (INFP/ISFP/ISFJ)', '慢热友谊'],
         bestScenes: ['安静草地', '慢嗅闻', '晒太阳发呆局'],
         tips: '别被"疯玩派"卷进去，咱们主打一个轻轻的、软软的',
-        image: 'resources/esfj.png'
+        image: 'resources/isfp.png'
     },
     'ENTJ': {
         name: '统领开荒犬',
@@ -197,7 +197,7 @@ const personalityTypes = {
         bestFriends: ['强强联手 (ESTJ/INTJ/ENFJ)', '有组织有纪律'],
         bestScenes: ['训练课', '定点遛狗团', '可控小群局'],
         tips: '遇到同样强势还爱临时改规则的，容易"当场顶牛"',
-        image: 'resources/intj.png'
+        image: 'resources/entj.png'
     },
     'ENFJ': {
         name: '号召力社交犬',
@@ -206,7 +206,7 @@ const personalityTypes = {
         bestFriends: ['慢热宝宝 (INFP/ISFJ)', '氛围队友 (ENFP/ESFJ)'],
         bestScenes: ['新狗入群的带玩官', '组织小队出门社交'],
         tips: '别照顾到把自己累着——你也要留点电量给自己呀',
-        image: 'resources/esfj-social.png'
+        image: 'resources/enfj.png'
     },
     'INTJ': {
         name: '策略观察犬',
@@ -224,7 +224,7 @@ const personalityTypes = {
         bestFriends: ['温柔治愈系 (ENFJ/ISFJ/INFP/INTJ)', '一眼对上就很久'],
         bestScenes: ['低刺激环境', '1v1深度友谊局'],
         tips: '大场子容易"情绪过载"，你需要慢慢充电',
-        image: 'resources/esfj.png'
+        image: 'resources/infj.png'
     },
     'ENTP': {
         name: '点子王整活犬',
@@ -233,7 +233,7 @@ const personalityTypes = {
         bestFriends: ['一起脑洞 (ENFP/ESTP/ESFP/INTP)', '越玩越多花样'],
         bestScenes: ['探索新路线', '嗅闻游戏', '互动玩具'],
         tips: '遇到规则超强的"队长型"，你可能会忍不住试探：那我偏要这样呢？',
-        image: 'resources/enfp.png'
+        image: 'resources/entp.png'
     },
     'ENFP': {
         name: '快乐小太阳犬',
@@ -251,7 +251,7 @@ const personalityTypes = {
         bestFriends: ['安静同频 (INTP/ISTP/INTJ/ISFJ)', '各玩各的也很熟'],
         bestScenes: ['嗅闻探索', '短时社交', '同场共处最舒服'],
         tips: '被追着贴贴会压力飙升——给我一点空间，我会更喜欢你',
-        image: 'resources/intj.png'
+        image: 'resources/intp.png'
     },
     'INFP': {
         name: '温柔理想犬',
@@ -260,7 +260,7 @@ const personalityTypes = {
         bestFriends: ['慢慢来派 (INFJ/ISFJ/INFP)', '温柔带动 (ENFJ)'],
         bestScenes: ['固定狗友', '固定地点', '低刺激散步局'],
         tips: '追逐太猛会让你"社交冻结"，先平行走再考虑放开玩',
-        image: 'resources/esfj.png'
+        image: 'resources/infp.png'
     }
 };
 
