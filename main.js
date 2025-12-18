@@ -268,6 +268,7 @@ const personalityTypes = {
 let currentQuestionIndex = 0;
 let answers = [];
 let currentPage = 'welcome';
+let isMusicPlaying = false;
 
 // DOM元素
 const elements = {
@@ -277,6 +278,10 @@ const elements = {
     loadingPage: document.getElementById('loading-page'),
     resultPage: document.getElementById('result-page'),
     
+    // 音乐元素
+    bgMusic: document.getElementById('bg-music'),
+    musicToggle: document.getElementById('music-toggle'),
+
     // 欢迎页面元素
     startTestBtn: document.getElementById('start-test-btn'),
     instructionsContent: document.getElementById('instructions-content'),
@@ -327,6 +332,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
+    // 设置音乐
+    if(elements.bgMusic) {
+        elements.bgMusic.src = "resources/bgm.mp3";
+        elements.bgMusic.volume = 0.5;
+    }
+
     // 绑定事件监听器
     bindEventListeners();
     
@@ -338,6 +349,22 @@ function initializeApp() {
 }
 
 function bindEventListeners() {
+    // 音乐开关
+    if(elements.musicToggle) {
+        elements.musicToggle.addEventListener('click', toggleMusic);
+    }
+
+    // 尝试自动播放音乐（首次交互）
+    document.body.addEventListener('click', function() {
+        if (elements.bgMusic && elements.bgMusic.paused && !isMusicPlaying) {
+             // 只有在用户没有手动关闭过的情况下才自动播放
+             // 这里简化逻辑，只要是暂停状态就尝试播放，但要配合toggle状态
+             // 如果用户手动关闭了，我们不应该自动播放
+             // 这里简单处理：首次点击播放
+             toggleMusic(); 
+        }
+    }, { once: true });
+
     // 欢迎页面事件
     elements.startTestBtn.addEventListener('click', startTest);
     
@@ -348,8 +375,44 @@ function bindEventListeners() {
     elements.nextBtn.addEventListener('click', nextQuestion);
     
     // 结果页面事件
-    elements.retakeBtn.addEventListener('click', resetTest);
+    // 修复重新测试按钮：改为调用startTest重新开始
+    elements.retakeBtn.addEventListener('click', startTest);
     elements.shareBtn.addEventListener('click', shareResult);
+    
+    // 弹窗关闭
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    if(closeModalBtn) {
+        closeModalBtn.addEventListener('click', () => {
+            document.getElementById('share-modal').style.display = 'none';
+        });
+    }
+    
+    // 点击遮罩层也可以关闭
+    const shareModal = document.getElementById('share-modal');
+    if(shareModal) {
+        shareModal.addEventListener('click', (e) => {
+            if (e.target === shareModal) {
+                shareModal.style.display = 'none';
+            }
+        });
+    }
+}
+
+function toggleMusic() {
+    if (!elements.bgMusic) return;
+    
+    if (isMusicPlaying) {
+        elements.bgMusic.pause();
+        elements.musicToggle.classList.add('off');
+        isMusicPlaying = false;
+    } else {
+        elements.bgMusic.play().then(() => {
+            elements.musicToggle.classList.remove('off');
+            isMusicPlaying = true;
+        }).catch(e => {
+            console.log('Music playback failed:', e);
+        });
+    }
 }
 
 function showPage(pageName) {
@@ -562,283 +625,119 @@ function calculateResult() {
         }
     });
     
-    // 计算结果类型
-    const resultType = 
-        (scores.E >= scores.I ? 'E' : 'I') +
-        (scores.S >= scores.N ? 'S' : 'N') +
-        (scores.T >= scores.F ? 'T' : 'F') +
-        (scores.J >= scores.P ? 'J' : 'P');
+    // 确定各维度偏好
+    const type = [
+        scores['E'] >= scores['I'] ? 'E' : 'I',
+        scores['S'] >= scores['N'] ? 'S' : 'N',
+        scores['T'] >= scores['F'] ? 'T' : 'F',
+        scores['J'] >= scores['P'] ? 'J' : 'P'
+    ].join('');
     
-    // 存储结果
-    window.testResult = {
-        type: resultType,
-        scores: scores,
-        personality: personalityTypes[resultType]
+    // 计算百分比（用于展示维度条）
+    const percentages = {
+        'EI': Math.round(scores[type[0]] / (scores['E'] + scores['I']) * 100),
+        'SN': Math.round(scores[type[1]] / (scores['S'] + scores['N']) * 100),
+        'TF': Math.round(scores[type[2]] / (scores['T'] + scores['F']) * 100),
+        'JP': Math.round(scores[type[3]] / (scores['J'] + scores['P']) * 100)
     };
     
-    // 计算各维度百分比
-    window.testResult.percentages = {
-        'EI': Math.round(Math.max(scores.E, scores.I) / 4 * 100),
-        'SN': Math.round(Math.max(scores.S, scores.N) / 4 * 100),
-        'TF': Math.round(Math.max(scores.T, scores.F) / 4 * 100),
-        'JP': Math.round(Math.max(scores.J, scores.P) / 4 * 100)
-    };
+    return { type, percentages };
 }
 
 function showResult() {
-    const result = window.testResult;
-    const personality = result.personality;
+    const { type, percentages } = calculateResult();
+    const personality = personalityTypes[type];
     
-    // 更新结果信息
-    elements.resultType.textContent = result.type;
+    // 更新结果页面内容
+    elements.resultType.textContent = type;
     elements.resultName.textContent = personality.name;
     elements.resultDescription.textContent = personality.description;
     elements.resultPuppyImage.src = personality.image;
     
-    // 更新性格特点
-    elements.personalityTraits.innerHTML = '';
-    personality.traits.forEach(trait => {
-        const tag = document.createElement('span');
-        tag.className = 'trait-tag';
-        tag.textContent = trait;
-        elements.personalityTraits.appendChild(tag);
-    });
-    
-    // 更新推荐信息
-    elements.bestFriends.innerHTML = '';
-    personality.bestFriends.forEach(friend => {
-        const tag = document.createElement('span');
-        tag.className = 'friend-tag';
-        tag.textContent = friend;
-        elements.bestFriends.appendChild(tag);
-    });
-    
-    elements.bestScenes.innerHTML = '';
-    personality.bestScenes.forEach(scene => {
-        const tag = document.createElement('span');
-        tag.className = 'scene-tag';
-        tag.textContent = scene;
-        elements.bestScenes.appendChild(tag);
-    });
-    
+    // 更新性格标签
+    elements.personalityTraits.innerHTML = personality.traits
+        .map(trait => `<span class="trait-tag">${trait}</span>`)
+        .join('');
+        
+    // 更新推荐内容
+    elements.bestFriends.textContent = personality.bestFriends.join('、');
+    elements.bestScenes.textContent = personality.bestScenes.join('、');
     elements.tipsText.textContent = personality.tips;
     
-    // 更新维度分析
-    updateDimensionAnalysis();
+    // 更新维度分析条
+    updateDimensionBar('EI', type[0], percentages['EI']);
+    updateDimensionBar('SN', type[1], percentages['SN']);
+    updateDimensionBar('TF', type[2], percentages['TF']);
+    updateDimensionBar('JP', type[3], percentages['JP']);
     
-    // 显示结果页面
     showPage('result');
     
-    // 结果页面动画
+    // 结果页入场动画
     anime({
-        targets: '.result-type-section',
+        targets: '.result-poster',
         scale: [0.9, 1],
         opacity: [0, 1],
         duration: 800,
-        delay: 200,
         easing: 'easeOutElastic(1, .8)'
-    });
-    
-    anime({
-        targets: '.dimensions-section, .personality-section, .recommendations-section',
-        translateY: [30, 0],
-        opacity: [0, 1],
-        duration: 600,
-        delay: anime.stagger(200, {start: 600}),
-        easing: 'easeOutQuart'
     });
 }
 
-function updateDimensionAnalysis() {
-    const result = window.testResult;
-    const percentages = result.percentages;
-    const scores = result.scores;
+function updateDimensionBar(dimension, type, percentage) {
+    const fillElement = document.querySelector(`.dimension-fill[data-dimension="${dimension}"]`);
+    const valueElement = elements.dimensionValues[dimension];
     
-    // 更新各维度进度条和数值
-    Object.keys(percentages).forEach(dimension => {
-        const fill = document.querySelector(`[data-dimension="${dimension}"]`);
-        const valueElement = elements.dimensionValues[dimension];
+    if (fillElement && valueElement) {
+        // 设置文字
+        const labelMap = {
+            'E': '外向', 'I': '内向',
+            'S': '实感', 'N': '直觉',
+            'T': '理性', 'F': '感性',
+            'J': '判断', 'P': '感知'
+        };
         
-        if (fill && valueElement) {
-            // 设置进度条
-            anime({
-                targets: fill,
-                width: `${percentages[dimension]}%`,
-                duration: 1500,
-                delay: 1000,
-                easing: 'easeOutQuart'
-            });
-            
-            // 设置数值文本
-            const [first, second] = dimension.split('');
-            const winner = scores[first] >= scores[second] ? first : second;
-            valueElement.textContent = `${winner} ${percentages[dimension]}%`;
-        }
-    });
+        // 找到对应的行
+        const container = fillElement.closest('.dimension-mini');
+        const labelSpan = container.querySelector('.dim-label-row span:first-child');
+        
+        labelSpan.textContent = `${type} ${labelMap[type]}`;
+        valueElement.textContent = `${percentage}%`;
+        
+        // 设置进度条宽度
+        // 延迟一点执行以展示动画
+        setTimeout(() => {
+            fillElement.style.width = `${percentage}%`;
+        }, 500);
+    }
 }
 
 function shareResult() {
-    const result = window.testResult;
-    const personality = result.personality;
+    const poster = document.getElementById('result-poster');
+    const originalBtnText = elements.shareBtn.textContent;
     
-    const shareText = `我家毛孩子的小狗MBTI结果是：${result.type} ${personality.name}！\n\n${personality.description}\n\n快来测测你家狗狗的狗格吧！`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: '小狗MBTI测试结果',
-            text: shareText,
-            url: window.location.href
-        }).catch(err => {
-            console.log('分享失败:', err);
-            fallbackShare(shareText);
-        });
-    } else {
-        fallbackShare(shareText);
-    }
-}
+    elements.shareBtn.textContent = '生成中...';
+    elements.shareBtn.disabled = true;
 
-function fallbackShare(text) {
-    // 复制到剪贴板
-    if (navigator.clipboard) {
-        navigator.clipboard.writeText(text).then(() => {
-            showNotification('结果已复制到剪贴板！');
-        }).catch(() => {
-            showShareModal(text);
-        });
-    } else {
-        showShareModal(text);
-    }
+    // 使用html2canvas生成图片
+    html2canvas(poster, {
+        useCORS: true,
+        scale: 2, // 提高清晰度
+        backgroundColor: '#ffffff', // 确保背景不透明
+        logging: false
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const generatedImg = document.getElementById('generated-poster');
+        generatedImg.src = imgData;
+        
+        document.getElementById('share-modal').style.display = 'flex';
+        
+        elements.shareBtn.textContent = originalBtnText;
+        elements.shareBtn.disabled = false;
+    }).catch(err => {
+        console.error('Share generation failed:', err);
+        elements.shareBtn.textContent = '生成失败';
+        elements.shareBtn.disabled = false;
+        setTimeout(() => {
+            elements.shareBtn.textContent = originalBtnText;
+        }, 2000);
+    });
 }
-
-function showShareModal(text) {
-    // 创建分享弹窗
-    const modal = document.createElement('div');
-    modal.className = 'share-modal';
-    modal.innerHTML = `
-        <div class="share-modal-content">
-            <h3>分享你的结果</h3>
-            <textarea readonly>${text}</textarea>
-            <div class="share-modal-actions">
-                <button class="btn-primary" onclick="copyShareText(this)">复制文本</button>
-                <button class="btn-secondary" onclick="closeShareModal()">关闭</button>
-            </div>
-        </div>
-    `;
-    
-    document.body.appendChild(modal);
-    
-    // 添加样式
-    modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 20px;
-    `;
-    
-    const content = modal.querySelector('.share-modal-content');
-    content.style.cssText = `
-        background: white;
-        padding: 24px;
-        border-radius: 16px;
-        max-width: 400px;
-        width: 100%;
-        text-align: center;
-    `;
-    
-    const textarea = modal.querySelector('textarea');
-    textarea.style.cssText = `
-        width: 100%;
-        height: 120px;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        margin: 16px 0;
-        font-family: inherit;
-        font-size: 14px;
-        resize: none;
-    `;
-    
-    const actions = modal.querySelector('.share-modal-actions');
-    actions.style.cssText = `
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-    `;
-}
-
-function copyShareText(button) {
-    const textarea = document.querySelector('.share-modal textarea');
-    textarea.select();
-    document.execCommand('copy');
-    button.textContent = '已复制！';
-    setTimeout(() => {
-        button.textContent = '复制文本';
-    }, 2000);
-}
-
-function closeShareModal() {
-    const modal = document.querySelector('.share-modal');
-    if (modal) {
-        modal.remove();
-    }
-}
-
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.className = 'notification';
-    notification.textContent = message;
-    
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: var(--color-primary);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        z-index: 1001;
-        animation: slideInRight 0.3s ease-out;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOutRight 0.3s ease-out';
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
-}
-
-// 添加CSS动画
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
-    }
-    
-    @keyframes slideOutRight {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(100%);
-            opacity: 0;
-        }
-    }
-`;
-document.head.appendChild(style);
