@@ -1,12 +1,241 @@
-<!doctype html>
-<html lang="zh">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>小狗MBTI测试</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小狗MBTI测试 - 发现你家毛孩子的真实性格</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+<base target="_blank">
+</head>
+<body class="app-mode">
+    <img src="resources/logo.png" alt="BOND萌宠芳邻" class="bond-logo">
+    <!-- 欢迎页面 -->
+    <div id="welcome-page" class="page active">
+        <div class="hero-section">
+            <div class="hero-content">
+                <div class="hero-image">
+                    <img src="resources/hero-puppy.png" alt="可爱的小狗" class="hero-puppy">
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-main">小狗MBTI</span>
+                    <span class="title-sub">狗格测试</span>
+                </h1>
+                <p class="hero-subtitle">发现你家毛孩子的真实性格</p>
+                <button id="start-test-btn" class="btn-primary btn-large">
+                    <span>开始测试</span>
+                    <span class="btn-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5 3C15.5 3 14 4.5 14 6.5C14 7.5 14.5 8.5 15.2 9.2L9.2 15.2C8.5 14.5 7.5 14 6.5 14C4.5 14 3 15.5 3 17.5C3 19.5 4.5 21 6.5 21C8.5 21 10 19.5 10 17.5C10 16.5 9.5 15.5 8.8 14.8L14.8 8.8C15.5 9.5 16.5 10 17.5 10C19.5 10 21 8.5 21 6.5C21 4.5 19.5 3 17.5 3Z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="instructions-section">
+            <div id="instructions-content" class="instructions-content">
+                <div class="instruction-card">
+                    <h3 style="text-align: center;">测试说明</h3>
+                    <ul>
+                        <li>以狗狗过去2-4周的典型表现作答</li>
+                        <li>幼犬/刚到家不足2周不建议测试</li>
+                        <li>每题只能选A或B，选择"它确实怎样"而非"希望它怎样"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 测试页面 -->
+    <div id="test-page" class="page">
+        <div class="test-header">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <span class="progress-text">
+                    <span id="current-question">1</span> / 16
+                </span>
+            </div>
+        </div>
+
+        <div class="test-content">
+            <div class="question-card">
+                <div class="quesiton-label">
+                    <div class="question-number">
+                        第 <span id="question-number">1</span> 题
+                    </div>
+                    <div class="question-dimension" id="question-dimension">
+                        外向E / 内向I
+                    </div>
+                </div>
+                
+                <h2 class="question-text" id="question-text">
+                    遇到陌生狗/陌生人时，它通常：
+                </h2>
+                <div class="options-container">
+                    <button class="option-btn" id="option-a" data-value="A">
+                        <span class="option-label">A</span>
+                        <span class="option-text" id="option-a-text">
+                            先冲上去闻/想打招呼
+                        </span>
+                    </button>
+                    <button class="option-btn" id="option-b" data-value="B">
+                        <span class="option-label">B</span>
+                        <span class="option-text" id="option-b-text">
+                            先退后观察，确定安全再靠近
+                        </span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="test-navigation">
+                <button id="prev-btn" class="btn-secondary" disabled>
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23455A64'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E" alt="prev" style="width:24px;height:24px;vertical-align:middle;margin-right:0px;"> 上一题&nbsp;&nbsp;
+                </button>
+                <button id="next-btn" class="btn-secondary" style="display: none;">
+                     &nbsp;&nbsp;下一题 <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23455A64'%3E%3Cpath d='M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z'/%3E%3C/svg%3E" alt="next" style="width:24px;height:24px;vertical-align:middle;margin-left:0px;">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载页面 -->
+    <div id="loading-page" class="page">
+        <div class="loading-content">
+            <div class="loading-animation">
+                <div class="bone-spinner">
+                    <img src="resources/bone-icon.png" alt="骨头" class="bone-icon">
+                </div>
+            </div>
+            <h2 class="loading-title" id="loading-text">正在分析狗格...</h2>
+            <div class="loading-progress">
+                <div class="loading-bar">
+                    <div class="loading-fill" id="loading-fill"></div>
+                </div>
+            </div>
+            <div class="loading-subtext" id="loading-subtext">正在连接汪星信号...</div>
+        </div>
+    </div>
+
+    <!-- 结果页面 -->
+    <div id="result-page" class="page">
+
+        <div class="result-content">
+            <!-- 海报容器 -->
+            <div id="result-poster" class="result-poster">
+                <!-- 装饰角标 -->
+                <div class="poster-badge">BOND萌宠芳邻</div>
+
+                <div class="result-header-group">
+                    <div class="result-image">
+                        <img id="result-puppy-image" src="resources/estj.png" alt="结果狗狗" class="result-puppy">
+                    </div>
+                    <div class="result-title-group">
+                        <h1 id="result-type" class="result-type-text">ESTJ</h1>
+                        <h2 id="result-name" class="result-name-text">纪律队长犬</h2>
+                    </div>
+                </div>
+
+                <p id="result-description" class="result-description-text">
+                    守规矩、执行力强
+                </p>
+
+                <div class="personality-section">
+                    <div id="personality-traits" class="traits-container">
+                        <span class="trait-tag">守规矩</span>
+                        <span class="trait-tag">执行力强</span>
+                        <span class="trait-tag">有组织</span>
+                    </div>
+                </div>
+
+                <div class="dimensions-section">
+                    <div class="dimensions-grid">
+                        <div class="dimension-mini" id="dim-ei">
+                            <div class="dim-label-row">
+                                <span>E 外向</span>
+                                <span id="value-ei" class="dim-val">75%</span>
+                            </div>
+                            <div class="dimension-bar small">
+                                <div class="dimension-fill" data-dimension="EI"></div>
+                            </div>
+                        </div>
+                        <div class="dimension-mini" id="dim-sn">
+                            <div class="dim-label-row">
+                                <span>S 实感</span>
+                                <span id="value-sn" class="dim-val">60%</span>
+                            </div>
+                            <div class="dimension-bar small">
+                                <div class="dimension-fill" data-dimension="SN"></div>
+                            </div>
+                        </div>
+                        <div class="dimension-mini" id="dim-tf">
+                            <div class="dim-label-row">
+                                <span>T 理性</span>
+                                <span id="value-tf" class="dim-val">80%</span>
+                            </div>
+                            <div class="dimension-bar small">
+                                <div class="dimension-fill" data-dimension="TF"></div>
+                            </div>
+                        </div>
+                        <div class="dimension-mini" id="dim-jp">
+                            <div class="dim-label-row">
+                                <span>J 判断</span>
+                                <span id="value-jp" class="dim-val">70%</span>
+                            </div>
+                            <div class="dimension-bar small">
+                                <div class="dimension-fill" data-dimension="JP"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-section compact">
+                    <div class="rec-row">
+                        <div class="rec-item">
+                            <h4>🤝 最佳狗友</h4>
+                            <div id="best-friends" class="text-content">
+                                乖乖配合型 (ISTJ)、温柔跟随派 (ISFJ)
+                            </div>
+                        </div>
+                        <div class="rec-item">
+                            <h4>🎯 最佳场景</h4>
+                            <div id="best-scenes" class="text-content">
+                                固定路线散步、训练课
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rec-item full-width">
+                        <h4>💡 小小提醒</h4>
+                        <p id="tips-text" class="text-content">
+                            遇到太会整活的"疯玩派"，你可能会忍不住当场开班上课
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="poster-footer">
+                    <div class="qr-placeholder">
+                        <span>扫码测一测</span>
+                    </div>
+                    <div class="poster-copyright">© 2025 小狗MBTI</div>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <button id="retake-btn" class="btn-secondary">
+                    重新测试
+                </button>
+                <button id="view-all-btn" class="btn-primary" onclick="window.location.href='personalities.html'">
+                    查看所有狗格
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
 </html>

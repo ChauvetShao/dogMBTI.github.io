@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16种狗格类型 - 小狗MBTI测试</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-back">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2342AADF'%3E%3Cpath d='M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z'/%3E%3C/svg%3E" alt="back" style="width:24px;height:24px;margin-right:4px;"> 返回测试
+            </a>
+            <h1 class="nav-title">16种狗格类型</h1>
+            <div class="nav-spacer"></div>
+        </div>
+    </nav>
+
+    <!-- 筛选区域 -->
+    <div class="filter-section">
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">全部</button>
+            <button class="filter-btn" data-filter="E">外向型</button>
+            <button class="filter-btn" data-filter="I">内向型</button>
+            <button class="filter-btn" data-filter="S">实感型</button>
+            <button class="filter-btn" data-filter="N">直觉型</button>
+            <button class="filter-btn" data-filter="T">理性型</button>
+            <button class="filter-btn" data-filter="F">感性型</button>
+            <button class="filter-btn" data-filter="J">判断型</button>
+            <button class="filter-btn" data-filter="P">感知型</button>
+        </div>
+    </div>
+
+    <!-- 狗格网格 -->
+    <div class="personalities-grid">
+        <!-- ESTJ -->
+        <div class="personality-card" data-types="E,S,T,J">
+            <div class="card-image">
+                <img src="resources/estj.png" alt="纪律队长犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ESTJ</h3>
+                <h4 class="card-name">纪律队长犬</h4>
+                <p class="card-description">守规矩、执行力强，天生的领导者</p>
+            </div>
+        </div>
+
+        <!-- ESFJ -->
+        <div class="personality-card" data-types="E,S,F,J">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="社交班长犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ESFJ</h3>
+                <h4 class="card-name">社交班长犬</h4>
+                <p class="card-description">合群、爱照顾气氛，社交达人</p>
+            </div>
+        </div>
+
+        <!-- ISTJ -->
+        <div class="personality-card" data-types="I,S,T,J">
+            <div class="card-image">
+                <img src="resources/estj.png" alt="稳重守护犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ISTJ</h3>
+                <h4 class="card-name">稳重守护犬</h4>
+                <p class="card-description">稳定、边界清晰，可靠的守护者</p>
+            </div>
+        </div>
+
+        <!-- ISFJ -->
+        <div class="personality-card" data-types="I,S,F,J">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="贴心小棉袄犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ISFJ</h3>
+                <h4 class="card-name">贴心小棉袄犬</h4>
+                <p class="card-description">温柔、黏人、护主，最佳陪伴者</p>
+            </div>
+        </div>
+
+        <!-- ESTP -->
+        <div class="personality-card" data-types="E,S,T,P">
+            <div class="card-image">
+                <img src="resources/enfp.png" alt="运动玩家犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ESTP</h3>
+                <h4 class="card-name">运动玩家犬</h4>
+                <p class="card-description">胆大、爱刺激、好胜，运动健将</p>
+            </div>
+        </div>
+
+        <!-- ESFP -->
+        <div class="personality-card" data-types="E,S,F,P">
+            <div class="card-image">
+                <img src="resources/enfp.png" alt="派对甜心犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ESFP</h3>
+                <h4 class="card-name">派对甜心犬</h4>
+                <p class="card-description">人来疯、超会玩，派对焦点</p>
+            </div>
+        </div>
+
+        <!-- ISTP -->
+        <div class="personality-card" data-types="I,S,T,P">
+            <div class="card-image">
+                <img src="resources/intj.png" alt="冷静机动犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ISTP</h3>
+                <h4 class="card-name">冷静机动犬</h4>
+                <p class="card-description">独立、反应快、爱研究，技术宅</p>
+            </div>
+        </div>
+
+        <!-- ISFP -->
+        <div class="personality-card" data-types="I,S,F,P">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="文艺敏感犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ISFP</h3>
+                <h4 class="card-name">文艺敏感犬</h4>
+                <p class="card-description">细腻、慢热、爱舒服，艺术家</p>
+            </div>
+        </div>
+
+        <!-- ENTJ -->
+        <div class="personality-card" data-types="E,N,T,J">
+            <div class="card-image">
+                <img src="resources/intj.png" alt="统领开荒犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ENTJ</h3>
+                <h4 class="card-name">统领开荒犬</h4>
+                <p class="card-description">目标感强、带队型，天生领袖</p>
+            </div>
+        </div>
+
+        <!-- ENFJ -->
+        <div class="personality-card" data-types="E,N,F,J">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="号召力社交犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ENFJ</h3>
+                <h4 class="card-name">号召力社交犬</h4>
+                <p class="card-description">喜欢组织、带动全场，社交导师</p>
+            </div>
+        </div>
+
+        <!-- INTJ -->
+        <div class="personality-card" data-types="I,N,T,J">
+            <div class="card-image">
+                <img src="resources/intj.png" alt="策略观察犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">INTJ</h3>
+                <h4 class="card-name">策略观察犬</h4>
+                <p class="card-description">很会判断、偏"高冷聪明"，军师型</p>
+            </div>
+        </div>
+
+        <!-- INFJ -->
+        <div class="personality-card" data-types="I,N,F,J">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="灵性陪伴犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">INFJ</h3>
+                <h4 class="card-name">灵性陪伴犬</h4>
+                <p class="card-description">共情强、依恋深，灵魂伴侣</p>
+            </div>
+        </div>
+
+        <!-- ENTP -->
+        <div class="personality-card" data-types="E,N,T,P">
+            <div class="card-image">
+                <img src="resources/entp.png" alt="点子王整活犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ENTP</h3>
+                <h4 class="card-name">点子王整活犬</h4>
+                <p class="card-description">爱试新、会"搞事"，创意大师</p>
+            </div>
+        </div>
+
+        <!-- ENFP -->
+        <div class="personality-card" data-types="E,N,F,P">
+            <div class="card-image">
+                <img src="resources/enfp.png" alt="快乐小太阳犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">ENFP</h3>
+                <h4 class="card-name">快乐小太阳犬</h4>
+                <p class="card-description">热情、好奇心爆棚，开心果</p>
+            </div>
+        </div>
+
+        <!-- INTP -->
+        <div class="personality-card" data-types="I,N,T,P">
+            <div class="card-image">
+                <img src="resources/intj.png" alt="思考宅宅犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">INTP</h3>
+                <h4 class="card-name">思考宅宅犬</h4>
+                <p class="card-description">安静、爱自己玩、探索型，哲学家</p>
+            </div>
+        </div>
+
+        <!-- INFP -->
+        <div class="personality-card" data-types="I,N,F,P">
+            <div class="card-image">
+                <img src="resources/esfj.png" alt="温柔理想犬" class="card-puppy">
+            </div>
+            <div class="card-content">
+                <h3 class="card-type">INFP</h3>
+                <h4 class="card-name">温柔理想犬</h4>
+                <p class="card-description">胆小谨慎但很深情，梦想家</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 BOND萌宠芳邻 - 小狗MBTI测试</p>
+            <div class="footer-decoration">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%2342AADF'%3E%3Cpath d='M256 224c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144-64.5-144-144-144zm0-96c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm-128 32c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64zm256 0c35.3 0 64-28.7 64-64s-28.7-64-64-64-64 28.7-64 64 28.7 64 64 64z'/%3E%3C/svg%3E" style="width:24px;height:24px;">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2342AADF'%3E%3Cpath d='M17.5 3C15.5 3 14 4.5 14 6.5C14 7.5 14.5 8.5 15.2 9.2L9.2 15.2C8.5 14.5 7.5 14 6.5 14C4.5 14 3 15.5 3 17.5C3 19.5 4.5 21 6.5 21C8.5 21 10 19.5 10 17.5C10 16.5 9.5 15.5 8.8 14.8L14.8 8.8C15.5 9.5 16.5 10 17.5 10C19.5 10 21 8.5 21 6.5C21 4.5 19.5 3 17.5 3Z'/%3E%3C/svg%3E" style="width:24px;height:24px;">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FF6B6B'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E" style="width:24px;height:24px;">
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 筛选功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const personalityCards = document.querySelectorAll('.personality-card');
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 更新按钮状态
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.dataset.filter;
+
+                    // 筛选卡片
+                    personalityCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block';
+                        } else {
+                            const types = card.dataset.types;
+                            if (types.includes(filter)) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }
+                    });
+
+                    // 动画效果
+                    anime({
+                        targets: '.personality-card:not([style*="none"])',
+                        scale: [0.8, 1],
+                        opacity: [0, 1],
+                        duration: 500,
+                        delay: anime.stagger(100),
+                        easing: 'easeOutElastic(1, .8)'
+                    });
+                });
+            });
+
+            // 页面加载动画
+            anime({
+                targets: '.personality-card',
+                translateY: [50, 0],
+                opacity: [0, 1],
+                duration: 800,
+                delay: anime.stagger(100),
+                easing: 'easeOutQuart'
+            });
+        });
+    </script>
+</body>
+</html>
